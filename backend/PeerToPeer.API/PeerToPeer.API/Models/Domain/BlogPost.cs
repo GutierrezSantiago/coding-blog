@@ -4,7 +4,7 @@ namespace PeerToPeer.API.Models.Domain
 {
     public class BlogPost
     {
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public  string ShortDescription { get; set; }
     
