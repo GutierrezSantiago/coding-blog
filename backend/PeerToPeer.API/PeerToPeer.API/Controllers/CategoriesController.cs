@@ -15,9 +15,11 @@ namespace PeerToPeer.API.Controllers
         {
             this.dbContext = dbContext;        
         }
+
         [HttpPost]
-        public async Task<IActionResult> CreateCaregory(CreateCategoryRequestDto request) 
+        public async Task<IActionResult> CreateCategory(CreateCategoryRequestDto request) 
         {
+            // DTO to Domain Model mapping
             var category = new Category
             {
                 Name = request.Name,
@@ -25,7 +27,18 @@ namespace PeerToPeer.API.Controllers
             };
 
             await dbContext.Categories.AddAsync(category);
+            await dbContext.SaveChangesAsync();
 
+            // Domain Model to DTO
+
+            var response = new CategoryDto
+            {
+                Id = category.Id,
+                Name = category.Name,
+                UrlHandle = category.UrlHandle
+            };
+
+            return Ok(response);
         }
     }
 }
