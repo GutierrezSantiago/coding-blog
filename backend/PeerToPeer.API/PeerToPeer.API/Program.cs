@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PeerToPeer.API.Data;
+using PeerToPeer.API.Repositories.Implementation;
+using PeerToPeer.API.Repositories.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("PeerToPeerConnectionString"));
 });
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 var app = builder.Build();
 

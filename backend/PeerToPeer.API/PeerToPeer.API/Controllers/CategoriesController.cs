@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PeerToPeer.API.Data;
 using PeerToPeer.API.Models.Domain;
 using PeerToPeer.API.Models.DTO;
+using PeerToPeer.API.Repositories.Interface;
 
 namespace PeerToPeer.API.Controllers
 {
@@ -10,10 +10,11 @@ namespace PeerToPeer.API.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly ApplicationDbContext dbContext;
-        public CategoriesController(ApplicationDbContext dbContext)
+        private readonly ICategoryRepository categoryRepository;
+
+        public CategoriesController(ICategoryRepository categoryRepository)
         {
-            this.dbContext = dbContext;        
+            this.categoryRepository = categoryRepository;
         }
 
         [HttpPost]
@@ -26,8 +27,7 @@ namespace PeerToPeer.API.Controllers
                 UrlHandle = request.UrlHandle
             };
 
-            await dbContext.Categories.AddAsync(category);
-            await dbContext.SaveChangesAsync();
+            await categoryRepository.CreateAsync(category);   
 
             // Domain Model to DTO
 
